@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Cinder.iml" filepath="$PROJECT_DIR$/Cinder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cinder/cinder.iml" filepath="$PROJECT_DIR$/cinder/cinder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cinderexample/cinderexample.iml" filepath="$PROJECT_DIR$/cinderexample/cinderexample.iml" />
+    </modules>
+  </component>
+</project>
