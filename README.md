@@ -1,5 +1,6 @@
 # Cinder
 ![Build Status](https://travis-ci.org/akiraspeirs/Cinder.svg?branch=master)
+[![codecov](https://codecov.io/gh/akiraspeirs/Cinder/branch/master/graph/badge.svg)](https://codecov.io/gh/akiraspeirs/Cinder)
 
 ### What is Cinder?
 Cinder helps you write concise and declarative code with Android’s databinding Observable classes.
