@@ -1,6 +1,7 @@
 # Cinder
 ![Build Status](https://travis-ci.org/akiraspeirs/Cinder.svg?branch=master)
 [![codecov](https://codecov.io/gh/akiraspeirs/Cinder/branch/master/graph/badge.svg)](https://codecov.io/gh/akiraspeirs/Cinder)
+[![Release](https://jitpack.io/v/akiraspeirs/Cinder.svg)](https://jitpack.io/#akiraspeirs/Cinder)
 
 ### What is Cinder?
 Cinder helps you write concise and declarative code with Android’s databinding Observable classes.
@@ -59,8 +60,24 @@ public class FruitStall {
         newFruit.set(""), Cinder.observable(fruits));
 }
 ```
+### Installing
 
-### Reference:
+You can install Cinder using JitPack.io:
+
+```groovy
+    repositories {
+        maven {
+            url "https://jitpack.io"
+        }
+    }
+```
+
+```groovy
+    dependencies {
+        compile 'com.github.akiraspeirs:Cinder:0.1.0'
+    }
+```
+### Reference
 
 #### ObservableEvent class:
 ```java
@@ -197,10 +214,10 @@ first, then skip 3 and then take 2.
 public void stop();
 ```
 
-## Roadmap
+### Roadmap
 - Add more operators.
 
-## License
+### License
 MIT License
 
 Copyright (c) 2016 akiraspeirs
