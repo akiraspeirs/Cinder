@@ -3,25 +3,47 @@
 [![codecov](https://codecov.io/gh/akiraspeirs/Cinder/branch/master/graph/badge.svg)](https://codecov.io/gh/akiraspeirs/Cinder)
 [![Release](https://jitpack.io/v/akiraspeirs/Cinder.svg)](https://jitpack.io/#akiraspeirs/Cinder)
 
-### What is Cinder?
-Cinder helps you write concise and declarative code with Android’s databinding Observable classes.
+## What is Cinder?
+I made Cinder to help write shorter and more declarative code with Android’s data binding Observable classes. I hope others might find it handy too.
 
-It is unobtrusive and has no setup. You can start using it with your existing Observable code.
+It doesn't need any setup and you can start using it with your existing Observable code.
 
-The library is in pre-release so its interface and implementation might change.
+The library is in version zero so its interface and implementation will change or be unstable.
 
-### Examples:
+Feedback welcome :)
+
+## What it does:
 ```java
-//An example for working with arrays of observable classes.
+//You can write this:
 Class ReceiptItem{
 	public final ObservableInt quantity = new ObservableInt();
 	public final ObservableInt price = new ObservableInt();
-
-    //Recalculates when quantity or price changes.
-	public final ObservableInt total = Cinder.computeInt(()->
-	    quantity.get() * price.get(),
+	public final ObservableInt total = Cinder.computeInt(()-> quantity.get() * price.get(),
 	    quantity, price);
 }
+
+//Instead of something this:
+Class ReceiptItem{
+	public final ObservableInt quantity = new ObservableInt();
+	public final ObservableInt price = new ObservableInt();
+	public final ObservableInt total = new ObservableInt();
+
+    private OnPropertyChangedCallback totalObserver = new OnPropertyChangedCallback() {
+       @Override
+       public void onPropertyChanged(Observable sender, int propertyId) {
+           total.set(quantity.get() * price.get());
+       }
+    };
+
+	public ReceiptItem(){
+        quantity.addOnPropertyChangedCallback(totalObserver);
+        price.addOnPropertyChangedCallback(totalObserver);
+	}
+}
+```
+## Other Examples:
+```java
+//Observe arrays of receipts.
 Class Receipt{
 	public final ObservableArrayList<RecepitItem> items = new ObservableArrayList<>();
 
@@ -35,32 +57,8 @@ Class Receipt{
         }, Cinder.observable(items, RecepitItem.class, "total"));
 }
 ```
-```java
-//This is a complete class from the cinderexample app.
-public class FruitStall {
-    final public ObservableField<String> newFruit = new ObservableField<>("");
-    final public ObservableEvent addFruit = new ObservableEvent();
-
-    //A list that adds newFruit each time addFruit fires, but only if newFruit has length > 0.
-    final public ObservableArrayList<String> fruits = Cinder.<String>computeArrayList((list)->
-            list.add(newFruit.get()),
-        addFruit).filter(()->newFruit.get().length() > 0);
-
-    //Remake a string of all fruits each time fruits is updated.
-    final public ObservableField<String> fruitList = Cinder.<String>computeField(()-> {
-            String fruitList = "";
-            for (String fruit : fruits) {
-                fruitList += fruit + " ";
-            }
-            return fruitList;
-        }, Cinder.observable(fruits));
-
-    //When fruits is updated, clear new fruit.
-    final public Observable fruitsObserver = Cinder.observe(()->
-        newFruit.set(""), Cinder.observable(fruits));
-}
-```
-### Installing
+For more examples see the cinderexample app, the documentation below, or the test suite.
+## Installing:
 
 You can install Cinder using JitPack.io:
 
@@ -77,7 +75,9 @@ You can install Cinder using JitPack.io:
         compile 'com.github.akiraspeirs:Cinder:0.1.0'
     }
 ```
-### Reference
+
+Strongly reccommended to be used with [Retrolambda](https://github.com/evant/gradle-retrolambda)
+## Reference:
 
 #### ObservableEvent class:
 ```java
@@ -214,10 +214,10 @@ first, then skip 3 and then take 2.
 public void stop();
 ```
 
-### Roadmap
+## Roadmap
 - Add more operators.
 
-### License
+## License
 MIT License
 
 Copyright (c) 2016 akiraspeirs
