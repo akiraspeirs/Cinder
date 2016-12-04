@@ -43,7 +43,7 @@ Class ReceiptItem{
 ```
 ## Other Examples:
 ```java
-//Observe arrays of receipts.
+//Observe properties of array elements
 Class Receipt{
 	public final ObservableArrayList<RecepitItem> items = new ObservableArrayList<>();
 
@@ -76,7 +76,7 @@ You can install Cinder using JitPack.io:
     }
 ```
 
-Strongly reccommended to be used with [Retrolambda](https://github.com/evant/gradle-retrolambda)
+Strongly recommended to be used with [Retrolambda](https://github.com/evant/gradle-retrolambda)
 ## Reference:
 
 #### ObservableEvent class:
@@ -162,7 +162,7 @@ ObservableInt length = Cinder.ComputeInt(()->
 
 #### Operators:
 ```java
-//Operators can be use to filter and control how callbacks are triggered.
+//Operators can be used to filter and control how callbacks are triggered.
 Example:
 final public ObservableArrayList<String> fruits = Cinder.<String>computeArrayList((list)->
             list.add(newFruit.get()),
