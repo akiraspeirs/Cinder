@@ -219,7 +219,7 @@ public void stop();
 - The owner of a Cinder callback cannot be garbage collected if it has any Cinder callbacks that cannot be garbage collected.
 
 #### Thread safety:
-- `debounce()`` will run the callback in a Timer thread, unless used with 'onUiThread()'. Make sure your debounced callbacks are threadsafe.
+- `debounce()` will run the callback in a Timer thread, unless used with `onUiThread()`. Make sure your debounced callbacks are threadsafe.
 
 ## Roadmap
 - Add more operators.
