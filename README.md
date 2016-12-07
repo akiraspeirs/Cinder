@@ -94,7 +94,7 @@ ObservableEvent addFruit = new ObservableEvent();
 public static CinderInt computeInt(OnComputeIntCallback computeCallback,
         BaseObservable... observables);
 
-//Example:
+// Example:
 ObservableInt fruitCount = Cinder.computeInt(()->
 	appleCount.get() + bananaCount.get() + orangeCount.get(),
     appleCount, bananaCount, orangeCount);
@@ -107,20 +107,37 @@ ObservableInt fruitCount = Cinder.computeInt(()->
 public static <T> CinderArrayList<T> computeArrayList(OnComputeArrayListCallback<T> computeCallback,
         BaseObservable... observables);
 
-//Example:
-ObservableArrayList<String> fruits = Cinder.<String>computeArrayList((list)-> {
-		list.add(new newFruitName.get())
-    },
-    addFruitEvent);
+// Example:
+ObservableArrayList<String> fruits = Cinder.<String>computeArrayList((list)->
+		list.add(newFruitName.get()), addFruitEvent);
+```
+
+#### Observable list and map conversion methods:
+```java
+// Makes an Observable that notifies changes whenever the list is mutated. This is useful in
+// conjection with observe and compute methods.
+public static CinderComputable observable(ObservableList list);
+
+// Example:
+ObservableInt length = Cinder.ComputeInt(()->list.get().length(), Cinder.observable(list));
+
+// Makes an Observable that notifies changes whenever the list is mutated or an element's Observable
+// field changes.
+public static CinderComputable observable(ObservableList list, Class c, String... fields);
+
+// Example:
+ObservableInt tastiness = Cinder.ComputeInt(()->
+	getAverageTastiness(list),
+    Cinder.observable(list, Fruit.class, "tastiness"));
 ```
 
 #### Basic observe methods:
 ```java
 // When you need to just observe.
 public static CinderObservable observe(OnChangeCallback onChangeCallback,
-        BaseObservable... observables)
+        BaseObservable... observables);
 
-//Example:
+// Example:
 Observable observable = Cinder.observe(()->{
 		fruitService.recordTotalFruitCount(appleCount.get() + bananaCount.get();
 	}, appleCount, bananaCount);
@@ -130,32 +147,20 @@ Observable observable = Cinder.observe(()->{
 ```java
 // Runs onChangeCallback whenever the list is mutated, or when any specified BaseObservable fields
 // of the list elements calls notifyChange
-public static <T> CinderObservable observe(ObservableList<T> list, Class c,
-        OnChangeCallback onChangeCallback, String... fields)
+public static <T> CinderObservable observe(OnChangeCallback onChangeCallback,
+        ObservableList<T> list, Class c, String... fields);
 
-//Example:
-Observable fruitObserver = Cinder.observe(list, Fruit.class, ()->{
+// Example:
+Observable fruitObserver = Cinder.observe(()->{
 		fruitService.uploadAllFruits(list);
-    }, "name", "tastiness"));
-```
+    }, list, Fruit.class, "name", "tastiness"));
 
-#### Observable list and map conversion methods:
-```java
-// Makes an Observable that notifies changes whenever the list is mutated. This is useful in
-// conjection with observe and compute methods.
-public static CinderComputable observable(ObservableList list);
+// Runs onChangeCallback whenever the list is mutated, doesn't observer array element changes.
+public static <T> CinderObservable observe(OnChangeCallback onChangeCallback,
+        ObservableList<T> list);
 
-//Example
-ObservableInt length = Cinder.ComputeInt(()->list.get().length(), Cinder.observable(list));
-
-// Makes an Observable that notifies changes whenever the list is mutated or an element's Observable
-// field changes.
-public static CinderComputable observable(ObservableList list, Class c, String... fields);
-
-//Example
-ObservableInt length = Cinder.ComputeInt(()->
-	getAverageTastiness(list),
-    Cinder.observable(list, Fruit.class, "tastiness"));
+// Example:
+Observable fruitObserver = Cinder.observe(()->fruitService.uploadAllFruits(list), list);
 ```
 
 #### Operators:
