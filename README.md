@@ -70,7 +70,7 @@ You can install Cinder using JitPack.io:
 
 ```groovy
     dependencies {
-        compile 'com.github.akiraspeirs:Cinder:0.1.0'
+        compile 'com.github.akiraspeirs:Cinder:0.2.0'
     }
 ```
 
@@ -145,8 +145,8 @@ Observable observable = Cinder.observe(()->{
 
 #### List and Map observe methods:
 ```java
-// Runs onChangeCallback whenever the list is mutated, or when any specified BaseObservable fields
-// of the list elements calls notifyChange
+// Runs onChangeCallback whenever the collection is mutated, or when any specified BaseObservable
+// fields of the list elements calls notifyChange
 public static <T> CinderObservable observe(OnChangeCallback onChangeCallback,
         ObservableList<T> list, Class c, String... fields);
 
@@ -155,7 +155,7 @@ Observable fruitObserver = Cinder.observe(()->{
 		fruitService.uploadAllFruits(list);
     }, list, Fruit.class, "name", "tastiness"));
 
-// Runs onChangeCallback whenever the list is mutated, doesn't observer array element changes.
+// Runs onChangeCallback whenever the collection is mutated.
 public static <T> CinderObservable observe(OnChangeCallback onChangeCallback,
         ObservableList<T> list);
 
