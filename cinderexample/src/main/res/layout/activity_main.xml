@@ -10,13 +10,14 @@
         <EditText android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@={fruitStall.newFruit}"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Fruit"
+            android:onClick="@{()->fruitStall.addFruit.fire()}"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@{fruitStall.fruitList}"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="@{()->fruitStall.addFruit.fire()}"/>
     </LinearLayout>
 </layout>
