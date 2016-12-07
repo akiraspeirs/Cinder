@@ -286,8 +286,10 @@ public class CinderUnitTest {
         ObservableArrayList<StringClass> observableList = new ObservableArrayList<>();
 
         ObservableField<String> observingString = new ObservableField<>("");
-        Cinder.observe(observableList, StringClass.class,
-                ()->observingString.set(observableList.get(0).element.get()), "element");
+        Cinder.observe(
+                ()->observingString.set(observableList.get(0).element.get()),
+                observableList, StringClass.class, "element");
+
         observableList.add(0, stringClass1);
         assertEquals(observingString.get(), string1);
 
@@ -296,6 +298,29 @@ public class CinderUnitTest {
 
         stringClass2.element.set(string3);
         assertEquals(observingString.get(), string3);
+
+        observableList.remove(0);
+        assertEquals(observingString.get(), string1);
+    }
+
+    @Test
+    public void simpleObservesObservableLists() throws Exception {
+        String string1 = "STRING 1";
+        String string2 = "STRING 2";
+        StringClass stringClass1 = new StringClass(string1);
+        StringClass stringClass2 = new StringClass(string2);
+        ObservableArrayList<StringClass> observableList = new ObservableArrayList<>();
+
+        ObservableField<String> observingString = new ObservableField<>("");
+        Cinder.observe(
+                ()->observingString.set(observableList.get(0).element.get()),
+                observableList);
+
+        observableList.add(0, stringClass1);
+        assertEquals(observingString.get(), string1);
+
+        observableList.add(0, stringClass2);
+        assertEquals(observingString.get(), string2);
 
         observableList.remove(0);
         assertEquals(observingString.get(), string1);
@@ -313,9 +338,10 @@ public class CinderUnitTest {
         ObservableArrayMap<String, StringClass> observableMap = new ObservableArrayMap<>();
 
         ObservableField<String> observingString = new ObservableField<>("");
-        Cinder.observe(observableMap, StringClass.class,
-                ()->observingString.set((observableMap.get(key1) != null) ?
-                        observableMap.get(key1).element.get() : stringMissing), "element");
+        Cinder.observe(()->
+                        observingString.set((observableMap.get(key1) != null) ?
+                                observableMap.get(key1).element.get() : stringMissing),
+                observableMap, StringClass.class, "element");
         observableMap.put(key1, stringClass1);
         assertEquals(observingString.get(), string1);
 
@@ -324,6 +350,31 @@ public class CinderUnitTest {
 
         stringClass2.element.set(string3);
         assertEquals(observingString.get(), string3);
+
+        observableMap.remove(key1);
+        assertEquals(observingString.get(), stringMissing);
+    }
+
+    @Test
+    public void simpleObservesObservableMaps() throws Exception {
+        String key1 = "KEY 1";
+        String string1 = "STRING 1";
+        String string2 = "STRING 2";
+        String stringMissing = "MISSING";
+        StringClass stringClass1 = new StringClass(string1);
+        StringClass stringClass2 = new StringClass(string2);
+        ObservableArrayMap<String, StringClass> observableMap = new ObservableArrayMap<>();
+
+        ObservableField<String> observingString = new ObservableField<>("");
+        Cinder.observe(()->
+                        observingString.set((observableMap.get(key1) != null) ?
+                        observableMap.get(key1).element.get() : stringMissing),
+                        observableMap);
+        observableMap.put(key1, stringClass1);
+        assertEquals(observingString.get(), string1);
+
+        observableMap.put(key1, stringClass2);
+        assertEquals(observingString.get(), string2);
 
         observableMap.remove(key1);
         assertEquals(observingString.get(), stringMissing);

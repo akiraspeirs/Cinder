@@ -151,25 +151,25 @@ public class Cinder {
 
     public static CinderComputable observable(ObservableList list){
         CinderComputable computable = new CinderComputable();
-        computable.setBehaviour(Cinder.observe(list, null, computable::notifyChange));
+        computable.setBehaviour(Cinder.observe(computable::notifyChange, list));
         return computable;
     }
 
     public static CinderComputable observable(ObservableList list, Class c, String... fields){
         CinderComputable computable = new CinderComputable();
-        computable.setBehaviour(Cinder.observe(list, c, computable::notifyChange, fields));
+        computable.setBehaviour(Cinder.observe(computable::notifyChange, list, c, fields));
         return computable;
     }
 
     public static CinderComputable observable(ObservableMap map){
         CinderComputable computable = new CinderComputable();
-        computable.setBehaviour(Cinder.observe(map, null, computable::notifyChange));
+        computable.setBehaviour(Cinder.observe(computable::notifyChange, map));
         return computable;
     }
 
     public static CinderComputable observable(ObservableMap map, Class c, String... fields){
         CinderComputable computable = new CinderComputable();
-        computable.setBehaviour(Cinder.observe(map, c, computable::notifyChange, fields));
+        computable.setBehaviour(Cinder.observe(computable::notifyChange, map, c, fields));
         return computable;
     }
 
@@ -189,7 +189,7 @@ public class Cinder {
         return observation;
     }
 
-    public static <T> CinderObservable observe(ObservableList<T> list, Class c, OnChangeCallback onChangeCallback, String... fields){
+    public static <T> CinderObservable observe(OnChangeCallback onChangeCallback, ObservableList<T> list, Class c, String... fields){
         CinderListObservable observation = new CinderListObservable(onChangeCallback);
         {
             CinderListPair<T> cinderListPair = new CinderListPair<>(list);
@@ -252,7 +252,11 @@ public class Cinder {
         return observation;
     }
 
-    public static <K, V> CinderObservable observe(ObservableMap<K, V> map, Class c, OnChangeCallback onChangeCallback, String... fields){
+    public static <T> CinderObservable observe(OnChangeCallback onChangeCallback, ObservableList<T> list) {
+        return Cinder.observe(onChangeCallback, list, null);
+    }
+
+    public static <K, V> CinderObservable observe(OnChangeCallback onChangeCallback, ObservableMap<K, V> map, Class c, String... fields){
         CinderMapObservable<K, V> observation = new CinderMapObservable<>(onChangeCallback);
         {
             CinderMapPair<K, V> cinderMapPair = new CinderMapPair<>(map);
@@ -285,6 +289,9 @@ public class Cinder {
             observation.pairs.add(cinderMapPair);
         }
         return observation;
+    }
+    public static <K, V> CinderObservable observe(OnChangeCallback onChangeCallback, ObservableMap<K, V> map) {
+        return Cinder.observe(onChangeCallback, map, null);
     }
 
     private static <T> void observeItemRangeInserted(ObservableList<T> list, int startIndex, int itemCount, Class c, String field, ArrayList<CinderPair> cinderPairs, CinderObservable observation) {
