@@ -4,12 +4,10 @@ import android.databinding.ObservableArrayList;
 import android.databinding.ObservableArrayMap;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableInt;
-import android.provider.Settings;
 
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by akiraspeirs on 1/12/2016.
@@ -17,12 +15,12 @@ import static org.junit.Assert.assertTrue;
 
 public class CinderGarbageCollectionUnitTest {
 
-    class TestClass {
+    private class TestClass {
         public ObservableInt number = new ObservableInt();
         public ObservableBoolean bool = Cinder.computeBoolean(()->true, number);
     }
 
-    class TestArrayClass{
+    private class TestArrayClass{
         ObservableArrayList<TestClass> test = new ObservableArrayList<>();
         ObservableInt testSize = Cinder.computeInt(()->test.size(), Cinder.observable(test, TestClass.class, "number"));
         ObservableArrayMap<String, String> test2 = Cinder.computeArrayMap((map)->{map.put("test", "test");}, Cinder.observable(test));
@@ -37,8 +35,10 @@ public class CinderGarbageCollectionUnitTest {
     }
 
     @Test
+    @SuppressWarnings("unused")
     public void callbacksGetCleanedUp() throws Exception {
         for (int i =0; i < 100; ++i){
+            //Intentionally unused, just testing garbage collection
             TestArrayClass t = new TestArrayClass();
         }
         System.gc();

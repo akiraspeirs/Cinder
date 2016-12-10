@@ -8,7 +8,11 @@ import java.util.ArrayList;
 
 public class CinderListObservable<T> extends CinderObservable {
 
-    ArrayList<CinderListPair<T>> pairs = new ArrayList<>();
+    private ArrayList<CinderListPair<T>> pairs = new ArrayList<>();
+
+    public void addPair(CinderListPair<T> pair){
+        this.pairs.add(pair);
+    }
 
     public CinderListObservable(Cinder.OnChangeCallback onChangeCallback){
         super(onChangeCallback);

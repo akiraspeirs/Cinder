@@ -8,11 +8,19 @@ import java.util.ArrayList;
 
 public class CinderMapObservable<K, V> extends CinderObservable {
 
-    ArrayList<CinderMapPair<K, V>> pairs = new ArrayList<>();
-    CinderMapPair defaultPair;
+    private ArrayList<CinderMapPair<K, V>> pairs = new ArrayList<>();
+    private CinderMapPair defaultPair;
 
     public CinderMapObservable(Cinder.OnChangeCallback onChangeCallback){
         super(onChangeCallback);
+    }
+
+    public void addPair(CinderMapPair<K, V> pair){
+        this.pairs.add(pair);
+    }
+
+    public void setDefaultPair(CinderMapPair defaultPair){
+        this.defaultPair = defaultPair;
     }
 
     public void stop(){

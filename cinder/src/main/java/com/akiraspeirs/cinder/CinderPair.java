@@ -8,13 +8,24 @@ import android.databinding.Observable;
  */
 
 class CinderPair {
-    public Observable.OnPropertyChangedCallback callback;
-
-    BaseObservable observable;
+    private Observable.OnPropertyChangedCallback callback;
+    private BaseObservable observable;
 
     CinderPair(BaseObservable observable,
                Observable.OnPropertyChangedCallback callback){
         this.observable = observable;
         this.callback = callback;
+    }
+
+    public void setCallback(Observable.OnPropertyChangedCallback callback){
+        this.callback = callback;
+    }
+
+    public Observable.OnPropertyChangedCallback getCallback(){
+        return callback;
+    }
+
+    public BaseObservable getObservable(){
+        return this.observable;
     }
 }

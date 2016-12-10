@@ -14,22 +14,22 @@ import java.util.TimerTask;
 
 public class CinderObservable extends BaseObservable{
 
+    private Filter filter;
+    private boolean onUiThread = false;
+    private int skip = 0;
+    private int skipCount = 0;
+    private int take = Integer.MAX_VALUE;
+    private int takeCount = 0;
+    private Filter takeFilter;
+    private Filter skipFilter;
+    private long debounce = 0;
+    private Cinder.OnChangeCallback onChangeCallback;
+    private Timer timer;
+    private TimerTask timerTask;
+
     public interface Filter {
         boolean filter();
     }
-    public Filter filter;
-
-    boolean onUiThread = false;
-    int skip = 0;
-    int skipCount = 0;
-    int take = Integer.MAX_VALUE;
-    int takeCount = 0;
-    Filter takeFilter;
-    Filter skipFilter;
-    long debounce = 0;
-    Cinder.OnChangeCallback onChangeCallback;
-    Timer timer;
-    TimerTask timerTask;
 
     CinderObservable(Cinder.OnChangeCallback onChangeCallback){this.onChangeCallback = onChangeCallback;}
 
@@ -78,7 +78,9 @@ public class CinderObservable extends BaseObservable{
         return this;
     }
 
-    public void stop(){}
+    public void stop(){
+        //Override this method top clear up callbacks when required.
+    }
 
     public boolean process(){
         if (filter != null && !filter.filter()){

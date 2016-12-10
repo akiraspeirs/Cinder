@@ -8,7 +8,6 @@ import android.databinding.ObservableList;
 import android.databinding.ObservableMap;
 import android.os.Parcelable;
 import android.support.v4.util.ArrayMap;
-import android.util.Log;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -183,7 +182,7 @@ public class Cinder {
                 }
             };
             observable.addOnPropertyChangedCallback(callback);
-            observation.pairs.add(new CinderPair(observable, callback));
+            observation.addPair(new CinderPair(observable, callback));
             callbackMap.put(callback, "");
         }
         return observation;
@@ -195,10 +194,14 @@ public class Cinder {
             CinderListPair<T> cinderListPair = new CinderListPair<>(list);
             ObservableList.OnListChangedCallback<ObservableList<T>> callback = new ObservableList.OnListChangedCallback<ObservableList<T>>() {
                 @Override
-                public void onChanged(ObservableList<T> items) {}
+                public void onChanged(ObservableList<T> items) {
+                    //onChanged is called in addition to inserted/removed, we don't need to handle it.
+                }
 
                 @Override
-                public void onItemRangeChanged(ObservableList<T> list, int startIndex, int itemCount) {}
+                public void onItemRangeChanged(ObservableList<T> list, int startIndex, int itemCount) {
+                    //onItemRangeChanged is called in addition to inserted/removed, we don't need to handle it.
+                }
 
                 @Override
                 public void onItemRangeInserted(ObservableList<T> list, int startIndex, int itemCount) {
@@ -206,7 +209,9 @@ public class Cinder {
                 }
 
                 @Override
-                public void onItemRangeMoved(ObservableList<T> list, int i, int i1, int i2) {}
+                public void onItemRangeMoved(ObservableList<T> list, int i, int i1, int i2) {
+                    //onItemRangeMoved is called in addition to inserted/removed, we don't need to handle it.
+                }
 
                 @Override
                 public void onItemRangeRemoved(ObservableList<T> list, int startIndex, int itemCount) {
@@ -214,8 +219,8 @@ public class Cinder {
                 }
             };
             list.addOnListChangedCallback(callback);
-            cinderListPair.callback = callback;
-            observation.pairs.add(cinderListPair);
+            cinderListPair.setCallback(callback);
+            observation.addPair(cinderListPair);
         }
 
         for (String field : fields) {
@@ -224,30 +229,36 @@ public class Cinder {
             for (T item : list) {
                 observeListFieldForClass(c, field, item, cinderPairs, observation);
             }
-            cinderListPair.cinderPairs = cinderPairs;
+            cinderListPair.setPairs(cinderPairs);
             ObservableList.OnListChangedCallback<ObservableList<T>> callback = new ObservableList.OnListChangedCallback<ObservableList<T>>() {
                 @Override
-                public void onChanged(ObservableList<T> items) {}
+                public void onChanged(ObservableList<T> items) {
+                    //onChanged is called in addition to inserted/removed, we don't need to handle it.
+                }
 
                 @Override
-                public void onItemRangeChanged(ObservableList<T> list, int startIndex, int itemCount) {}
+                public void onItemRangeChanged(ObservableList<T> list, int startIndex, int itemCount) {
+                    //onItemRangeChanged is called in addition to inserted/removed, we don't need to handle it.
+                }
 
                 @Override
                 public void onItemRangeInserted(ObservableList<T> list, int startIndex, int itemCount) {
-                    observeItemRangeInserted(list, startIndex, itemCount, c, field, cinderListPair.cinderPairs, observation);
+                    observeItemRangeInserted(list, startIndex, itemCount, c, field, cinderListPair.getPairs(), observation);
                 }
 
                 @Override
-                public void onItemRangeMoved(ObservableList<T> list, int i, int i1, int i2) {}
+                public void onItemRangeMoved(ObservableList<T> list, int i, int i1, int i2) {
+                    //onItemRangeMoved is called in addition to inserted/removed, we don't need to handle it.
+                }
 
                 @Override
                 public void onItemRangeRemoved(ObservableList<T> list, int startIndex, int itemCount) {
-                    unobserveItemRangeRemoved(startIndex, itemCount, cinderListPair.cinderPairs);
+                    unobserveItemRangeRemoved(startIndex, itemCount, cinderListPair.getPairs());
                 }
             };
             list.addOnListChangedCallback(callback);
-            cinderListPair.callback = callback;
-            observation.pairs.add(cinderListPair);
+            cinderListPair.setCallback(callback);
+            observation.addPair(cinderListPair);
         }
         return observation;
     }
@@ -267,8 +278,8 @@ public class Cinder {
                 }
             };
             map.addOnMapChangedCallback(callback);
-            cinderMapPair.callback = callback;
-            observation.defaultPair = cinderMapPair;
+            cinderMapPair.setCallback(callback);
+            observation.setDefaultPair(cinderMapPair);
         }
 
         for (String field : fields) {
@@ -277,16 +288,16 @@ public class Cinder {
             for (K key : map.keySet()) {
                 observeMapFieldForClass(c, field, key, map.get(key), cinderPairs, observation);
             }
-            cinderMapPair.cinderPairs = cinderPairs;
+            cinderMapPair.setPairs(cinderPairs);
             ObservableMap.OnMapChangedCallback<ObservableMap<K, V>, K, V> callback = new ObservableMap.OnMapChangedCallback<ObservableMap<K, V>, K, V>() {
                 @Override
                 public void onMapChanged(ObservableMap<K, V> map, K key){
-                    handleMapChange(map, key, c, field, cinderMapPair.cinderPairs, observation);
+                    handleMapChange(map, key, c, field, cinderMapPair.getPairs(), observation);
                 }
             };
             map.addOnMapChangedCallback(callback);
-            cinderMapPair.callback = callback;
-            observation.pairs.add(cinderMapPair);
+            cinderMapPair.setCallback(callback);
+            observation.addPair(cinderMapPair);
         }
         return observation;
     }
@@ -303,7 +314,7 @@ public class Cinder {
     private static <T> void unobserveItemRangeRemoved(int startIndex, int itemCount, ArrayList<CinderPair> cinderPairs) {
         for (int i = startIndex + itemCount - 1; i >= startIndex; --i){
             CinderPair pair = cinderPairs.get(i);
-            pair.observable.removeOnPropertyChangedCallback(pair.callback);
+            pair.getObservable().removeOnPropertyChangedCallback(pair.getCallback());
             cinderPairs.remove(i);
         }
     }
@@ -313,7 +324,7 @@ public class Cinder {
             observeMapFieldForClass(c, field, key, map.get(key), cinderPairs, observation);
         } else {
             CinderPair cinderPair = cinderPairs.get(key);
-            cinderPair.observable.removeOnPropertyChangedCallback(cinderPair.callback);
+            cinderPair.getObservable().removeOnPropertyChangedCallback(cinderPair.getCallback());
             cinderPairs.remove(key);
             if (map.get(key) != null){
                 observeMapFieldForClass(c, field, key, map.get(key), cinderPairs, observation);

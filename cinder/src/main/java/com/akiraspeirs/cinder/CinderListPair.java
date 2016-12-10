@@ -10,19 +10,31 @@ import java.util.ArrayList;
 
 
 class CinderListPair<T>{
-    public ObservableList.OnListChangedCallback callback;
+    private ObservableList.OnListChangedCallback callback;
 
-    ObservableList<T> observableList;
-    ArrayList<CinderPair> cinderPairs = new ArrayList<>();
+    private ObservableList<T> observableList;
+    private ArrayList<CinderPair> pairs = new ArrayList<>();
 
     CinderListPair(ObservableList<T> observableList){
         this.observableList = observableList;
     }
 
+    public void setCallback(ObservableList.OnListChangedCallback callback){
+        this.callback = callback;
+    }
+
+    public void setPairs(ArrayList<CinderPair> pairs){
+        this.pairs = pairs;
+    }
+
+    public ArrayList<CinderPair> getPairs(){
+        return pairs;
+    }
+
     public void stop(){
         observableList.removeOnListChangedCallback(callback);
-        for (CinderPair pair : cinderPairs){
-            pair.observable.removeOnPropertyChangedCallback(pair.callback);
+        for (CinderPair pair : pairs){
+            pair.getObservable().removeOnPropertyChangedCallback(pair.getCallback());
         }
     }
 }

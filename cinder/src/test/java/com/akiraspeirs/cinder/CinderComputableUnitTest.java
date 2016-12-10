@@ -3,11 +3,8 @@ package com.akiraspeirs.cinder;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
 
-import com.akiraspeirs.cinder.Cinder;
-
 import org.junit.Test;
 
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 

@@ -51,8 +51,8 @@ public class CinderUnitTest {
     @Test
     public void computesArrayMap() throws Exception {
         class TestTuple {
-            String key;
-            int number;
+            private String key;
+            private int number;
             TestTuple(String key, int number){
                 this.key = key;
                 this.number = number;

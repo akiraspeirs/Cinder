@@ -17,9 +17,6 @@ public class CinderComputable extends BaseObservable{
         return cinderObservable;
     }
 
-    public CinderComputable(){
-    }
-
     public void setObservableBehaviour(CinderObservable behaviour){
         this.cinderObservable = behaviour;
     }
