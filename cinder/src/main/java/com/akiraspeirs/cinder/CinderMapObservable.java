@@ -24,6 +24,7 @@ public class CinderMapObservable<K, V> extends CinderObservable {
     }
 
     public void stop(){
+        defaultPair.stop();
         if (pairs != null) {
             for (CinderMapPair pair : pairs) {
                 pair.stop();
