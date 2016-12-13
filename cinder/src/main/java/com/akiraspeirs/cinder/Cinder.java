@@ -19,7 +19,7 @@ import java.util.WeakHashMap;
 
 public class Cinder {
     
-    private static WeakHashMap<Observable.OnPropertyChangedCallback, String> callbackMap = new WeakHashMap<>();
+    private static WeakHashMap<Object, String> callbackMap = new WeakHashMap<>();
     public static long getCallbackCount(){
         return callbackMap.size();
     }
@@ -221,6 +221,7 @@ public class Cinder {
             list.addOnListChangedCallback(callback);
             cinderListPair.setCallback(callback);
             observation.addPair(cinderListPair);
+            callbackMap.put(callback, "");
         }
 
         for (String field : fields) {
@@ -259,6 +260,7 @@ public class Cinder {
             list.addOnListChangedCallback(callback);
             cinderListPair.setCallback(callback);
             observation.addPair(cinderListPair);
+            callbackMap.put(callback, "");
         }
         return observation;
     }
@@ -280,6 +282,7 @@ public class Cinder {
             map.addOnMapChangedCallback(callback);
             cinderMapPair.setCallback(callback);
             observation.setDefaultPair(cinderMapPair);
+            callbackMap.put(callback, "");
         }
 
         for (String field : fields) {
@@ -298,6 +301,7 @@ public class Cinder {
             map.addOnMapChangedCallback(callback);
             cinderMapPair.setCallback(callback);
             observation.addPair(cinderMapPair);
+            callbackMap.put(callback, "");
         }
         return observation;
     }
@@ -361,6 +365,7 @@ public class Cinder {
         };
         observable.addOnPropertyChangedCallback(callback);
         cinderPairs.add(new CinderPair(observable, callback));
+        callbackMap.put(callback, "");
     }
 
     private static <T, K> void observeMapFieldForClass(Class c, String field, K key, T item, ArrayMap<K, CinderPair> cinderPairs, CinderObservable observation){
@@ -391,6 +396,7 @@ public class Cinder {
             }
         };
         observable.addOnPropertyChangedCallback(callback);
+        callbackMap.put(callback, "");
         cinderPairs.put(key, new CinderPair(observable, callback));
     }
 }
