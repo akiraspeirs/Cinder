@@ -132,4 +132,18 @@ public class CinderArrayListUnitTest {
 
         assertEquals(testString, observing.get(0));
     }
+
+    @Test
+    public void stopStops() throws Exception {
+        String string1 = "STRING 1";
+        String string2 = "STRING 2";
+        ObservableField<String> observed = new ObservableField<>(string1);
+        CinderArrayList<String> observing = Cinder.<String>computeArrayList((list)->
+                list.add(0, observed.get()), observed).immediate();
+        assertEquals(string1, observing.get(0));
+
+        observing.stop();
+        observed.set(string2);
+        assertEquals(string1, observing.get(0));
+    }
 }

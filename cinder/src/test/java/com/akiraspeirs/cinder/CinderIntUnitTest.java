@@ -113,4 +113,19 @@ public class CinderIntUnitTest {
 
         assertTrue(observing.get() == int1);
     }
+
+    @Test
+    public void stopStops() throws Exception {
+        int int1 = 123;
+        int int2 = 43;
+        ObservableInt observed = new ObservableInt(int1);
+        CinderInt observing = Cinder.computeInt(()->
+                observed.get(), observed).immediate();
+        assertTrue(observing.get() == int1);
+
+        observing.stop();
+
+        observed.set(int2);
+        assertTrue(observing.get() == int1);
+    }
 }

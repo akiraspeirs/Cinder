@@ -118,4 +118,19 @@ public class CinderCharUnitTest {
 
         assertTrue(observing.get() == char1);
     }
+
+    @Test
+    public void stopStops() throws Exception {
+        char char1 = 123;
+        char char2 = 43;
+        ObservableChar observed = new ObservableChar(char1);
+        CinderChar observing = Cinder.computeChar(()->
+                observed.get(), observed).once().immediate();
+        assertTrue(observing.get() == char1);
+
+        observing.stop();
+
+        observed.set(char2);
+        assertTrue(observing.get() == char1);
+    }
 }

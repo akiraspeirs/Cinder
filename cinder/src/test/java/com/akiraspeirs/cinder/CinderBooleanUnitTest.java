@@ -120,4 +120,19 @@ public class CinderBooleanUnitTest {
 
         assertTrue(observing.get());
     }
+
+    @Test
+    public void stopStops() throws Exception {
+        String string1 = "STRING 1";
+        String string2 = "STRING 2";
+        ObservableField<String> observed = new ObservableField<>(string1);
+        CinderBoolean observing = Cinder.computeBoolean(()->
+                observed.get().equals(string1), observed).immediate();
+        assertTrue(observing.get());
+
+        observing.stop();
+
+        observed.set(string2);
+        assertTrue(observing.get());
+    }
 }

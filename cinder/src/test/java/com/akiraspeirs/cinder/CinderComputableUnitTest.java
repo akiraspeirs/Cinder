@@ -1,7 +1,9 @@
 package com.akiraspeirs.cinder;
 
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableArrayMap;
 import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
 
 import org.junit.Test;
 
@@ -14,6 +16,10 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class CinderComputableUnitTest {
+
+    private class TestClass {
+        public ObservableInt number = new ObservableInt();
+    }
 
     @Test
     public void onceTakesOnce() throws Exception {
@@ -128,5 +134,49 @@ public class CinderComputableUnitTest {
 
         observed.add(0, gooderString);
         assertEquals(goodString, observing.get());
+    }
+
+    @Test
+    public void stopArrayListStops() throws Exception {
+        int TEST = 43;
+        ObservableArrayList<TestClass> observed = new ObservableArrayList<>();
+        TestClass testClass = new TestClass();
+        testClass.number.set(TEST);
+        observed.add(testClass);
+        CinderComputable computing = Cinder.observable(observed, TestClass.class, "number").immediate();
+        CinderInt observing = Cinder.computeInt(()->
+                observed.get(0).number.get(), computing).immediate();
+        assertEquals(TEST, observing.get());
+
+        computing.stop();
+
+        observed.get(0).number.set(23);
+        assertEquals(TEST, observing.get());
+
+        observed.add(new TestClass());
+        assertEquals(TEST, observing.get());
+    }
+
+    @Test
+    public void stopArrayMapStops() throws Exception {
+        String string1 = "STRING 1";
+        String string2 = "STRING 2";
+        int TEST = 43;
+        ObservableArrayMap<String, TestClass> observed = new ObservableArrayMap<>();
+        TestClass testClass = new TestClass();
+        testClass.number.set(TEST);
+        observed.put(string1, testClass);
+        CinderComputable computing = Cinder.observable(observed, TestClass.class, "number").immediate();
+        CinderInt observing = Cinder.computeInt(()->
+            observed.get(string1).number.get(), computing).immediate();
+        assertEquals(TEST, observing.get());
+
+        computing.stop();
+
+        observed.get(string1).number.set(23);
+        assertEquals(TEST, observing.get());
+
+        observed.put(string2, new TestClass());
+        assertEquals(TEST, observing.get());
     }
 }

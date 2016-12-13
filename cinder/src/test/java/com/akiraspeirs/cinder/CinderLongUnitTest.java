@@ -113,4 +113,19 @@ public class CinderLongUnitTest {
 
         assertTrue(observing.get() == long1);
     }
+
+    @Test
+    public void stopStops() throws Exception {
+        long long1 = 123;
+        long long2 = 43;
+        ObservableLong observed = new ObservableLong(long1);
+        CinderLong observing = Cinder.computeLong(()->
+                observed.get(), observed).immediate();
+        assertTrue(observing.get() == long1);
+
+        observing.stop();
+
+        observed.set(long2);
+        assertTrue(observing.get() == long1);
+    }
 }

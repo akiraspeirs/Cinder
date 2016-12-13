@@ -18,6 +18,7 @@ import static org.junit.Assert.*;
 public class CinderArrayMapUnitTest {
     private final static String key1 = "KEY 1";
 
+
     @Test
     public void onceTakesOnce() throws Exception {
         String string1 = "STRING 1";
@@ -132,5 +133,20 @@ public class CinderArrayMapUnitTest {
         }).withDefault(defaultValue);
 
         assertEquals(testString, observing.get(key1));
+    }
+
+    @Test
+    public void stopStops() throws Exception {
+        String string1 = "STRING 1";
+        String string2 = "STRING 2";
+        ObservableField<String> observed = new ObservableField<>(string1);
+        CinderArrayMap<String, String> observing = Cinder.<String, String>computeArrayMap((list)->
+                list.put(key1, observed.get()), observed).immediate();
+        assertEquals(string1, observing.get(key1));
+
+        observing.stop();
+
+        observed.set(string2);
+        assertEquals(string1, observing.get(key1));
     }
 }

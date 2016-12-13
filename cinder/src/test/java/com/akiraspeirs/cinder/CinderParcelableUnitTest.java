@@ -114,4 +114,19 @@ public class CinderParcelableUnitTest {
 
         assertTrue(observing.get() == point1);
     }
+
+    @Test
+    public void stopStops() throws Exception {
+        Point point1 = new Point(1, 2);
+        Point point2 = new Point(14, 21);
+        ObservableParcelable<Point> observed = new ObservableParcelable<>(point1);
+        CinderParcelable<Point> observing = Cinder.<Point>computeParcelable(()->
+                observed.get(), observed).immediate();
+        assertTrue(observing.get() == point1);
+
+        observing.stop();
+
+        observed.set(point2);
+        assertTrue(observing.get() == point1);
+    }
 }

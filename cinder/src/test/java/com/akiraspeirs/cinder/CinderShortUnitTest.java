@@ -113,4 +113,18 @@ public class CinderShortUnitTest {
 
         assertTrue(observing.get() == short1);
     }
+
+    @Test
+    public void stopStops() throws Exception {
+        short short1 = 123;
+        short short2 = 43;
+        ObservableShort observed = new ObservableShort(short1);
+        CinderShort observing = Cinder.computeShort(()->
+                observed.get(), observed).immediate();
+        assertTrue(observing.get() == short1);
+
+        observing.stop();
+        observed.set(short2);
+        assertTrue(observing.get() == short1);
+    }
 }

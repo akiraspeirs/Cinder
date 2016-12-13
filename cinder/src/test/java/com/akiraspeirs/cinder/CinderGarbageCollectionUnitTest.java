@@ -31,6 +31,10 @@ public class CinderGarbageCollectionUnitTest {
                 test.add(t);
                 Cinder.observe(()->{}, testSize);
             }
+            ObservableArrayMap<String, TestClass> observerd = new ObservableArrayMap<>();
+            observerd.put("tes", new TestClass());
+            observerd.put("pop", new TestClass());
+            CinderComputable test = Cinder.observable(observerd, TestClass.class, "number");
         }
     }
 

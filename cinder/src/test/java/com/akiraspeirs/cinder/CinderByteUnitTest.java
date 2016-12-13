@@ -118,4 +118,19 @@ public class CinderByteUnitTest {
 
         assertTrue(observing.get() == byte1);
     }
+
+    @Test
+    public void stopStops() throws Exception {
+        byte byte1 = 123;
+        byte byte2 = 43;
+        ObservableByte observed = new ObservableByte(byte1);
+        CinderByte observing = Cinder.computeByte(()->
+                observed.get(), observed).immediate();
+        assertTrue(observing.get() == byte1);
+
+        observing.stop();
+
+        observed.set(byte2);
+        assertTrue(observing.get() == byte1);
+    }
 }

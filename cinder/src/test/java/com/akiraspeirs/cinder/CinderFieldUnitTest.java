@@ -113,4 +113,18 @@ public class CinderFieldUnitTest {
 
         assertTrue(observing.get() == string1);
     }
+
+    @Test
+    public void stopStops() throws Exception {
+        String string1 = "123";
+        String string2 = "43";
+        ObservableField<String> observed = new ObservableField<>(string1);
+        CinderField<String> observing = Cinder.<String>computeField(()->
+                observed.get(), observed).immediate();
+        assertTrue(observing.get() == string1);
+
+        observing.stop();
+        observed.set(string2);
+        assertTrue(observing.get() == string1);
+    }
 }

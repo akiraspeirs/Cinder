@@ -113,4 +113,19 @@ public class CinderFloatUnitTest {
 
         assertTrue(observing.get() == float1);
     }
+
+    @Test
+    public void stopStops() throws Exception {
+        float float1 = 123;
+        float float2 = 43;
+        ObservableFloat observed = new ObservableFloat(float1);
+        CinderFloat observing = Cinder.computeFloat(()->
+                observed.get(), observed).immediate();
+        assertTrue(observing.get() == float1);
+
+        observing.stop();
+
+        observed.set(float2);
+        assertTrue(observing.get() == float1);
+    }
 }
