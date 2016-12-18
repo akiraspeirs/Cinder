@@ -16,9 +16,11 @@ android:
     - extra-google-m2repository
     - extra-android-support
     - extra-google-google_play_services
+    - sys-img-armeabi-v7a-android-22
 
 script:
    - ./gradlew build test
+   - ./gradlew createDebugCoverageReport
 
 after_success:
    - bash <(curl -s https://codecov.io/bash)
