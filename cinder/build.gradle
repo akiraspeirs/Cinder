@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'jacoco-android'
+apply from: "$rootDir/coverage.gradle"
 
 group='com.github.akiraspeirs'
 
@@ -35,6 +36,15 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
     }
 }
 
