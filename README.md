@@ -1,6 +1,7 @@
 # Cinder
 ![Build Status](https://travis-ci.org/akiraspeirs/Cinder.svg?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/fe144743825f48ccab94a1183dc92c6b)](https://www.codacy.com/app/akiraspeirs/Cinder?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=akiraspeirs/Cinder&amp;utm_campaign=Badge_Grade)
+[![codecov](https://codecov.io/gh/akiraspeirs/Cinder/branch/master/graph/badge.svg)](https://codecov.io/gh/akiraspeirs/Cinder)
 [![Release](https://jitpack.io/v/akiraspeirs/Cinder.svg)](https://jitpack.io/#akiraspeirs/Cinder)
 
 Cinder helps you write concise and declarative code with Android’s data binding Observable classes.

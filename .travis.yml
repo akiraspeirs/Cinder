@@ -30,9 +30,8 @@ before_script:
 
 script:
    - android list target
-   - ./gradlew build test
-   - ./gradlew createDebugCoverageReport
+   - ./gradlew clean coverageReport
 
 after_success:
    - bash <(curl -s https://codecov.io/bash)
-   - ~/jpm/bin/codacy-coverage-reporter -l Java -r cinder/build/reports/jacoco/jacocoTestDebugUnitTestReport/jacocoTestDebugUnitTestReport.xml
+   - ~/jpm/bin/codacy-coverage-reporter -l Java -r cinder/build/reports/jacocoTestReport.xml
