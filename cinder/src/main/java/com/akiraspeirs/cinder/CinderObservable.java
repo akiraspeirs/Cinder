@@ -83,54 +83,85 @@ public class CinderObservable extends BaseObservable{
     }
 
     public boolean process(){
-        if (filter != null && !filter.filter()){
+        if (!processFilter()){
             return false;
         }
 
-        if (skipFilter != null && skipFilter.filter()){
+        if (!processSkipFilter()){
             return false;
+        }
+
+        if (!processTakeFilter()){
+            return false;
+        }
+
+        if (!processSkip()){
+            return false;
+        }
+
+        if (!processTake()){
+            return false;
+        }
+
+        if (debounce > 0) {
+            processDebounce();
         } else {
-            skipFilter = null;
-        }
-
-        if (takeFilter != null && !takeFilter.filter()){
-            stop();
-            return false;
-        }
-
-        skipCount++;
-        if (skipCount <= skip){
-            return false;
-        }
-
-        takeCount++;
-        if (takeCount > take){
-            stop();
-            return false;
-        }
-
-        if (debounce > 0){
-            if (timer != null) {
-                timer.cancel();
-            }
-            if (timerTask != null) {
-                timerTask.cancel();
-            }
-            timer = new Timer();
-            timerTask = new TimerTask() {
-                @Override
-                public void run() {
-                    processCallback();
-                }
-            };
-            timer.schedule(timerTask, debounce);
-        }
-        else {
             processCallback();
         }
 
         notifyChange();
         return true;
+    }
+
+    private boolean processFilter(){
+        return !(filter != null && !filter.filter());
+    }
+
+    private boolean processSkipFilter(){
+        if (skipFilter != null && skipFilter.filter()){
+            return false;
+        }
+        skipFilter = null;
+        return true;
+    }
+
+    private boolean processTakeFilter(){
+        if (takeFilter != null && !takeFilter.filter()){
+            stop();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean processSkip(){
+        skipCount++;
+        return skipCount > skip;
+    }
+
+    private boolean processTake(){
+        takeCount++;
+        if (takeCount > take){
+            stop();
+            return false;
+        }
+        return true;
+    }
+
+    private void processDebounce(){
+        if (timer != null) {
+            timer.cancel();
+        }
+        if (timerTask != null) {
+            timerTask.cancel();
+        }
+        timer = new Timer();
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                processCallback();
+            }
+        };
+        timer.schedule(timerTask, debounce);
     }
 
     private void processCallback(){

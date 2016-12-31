@@ -70,7 +70,7 @@ You can install Cinder using JitPack.io:
 
 ```groovy
     dependencies {
-        compile 'com.github.akiraspeirs:Cinder:0.2.0'
+        compile 'com.github.akiraspeirs:Cinder:0.2.1'
     }
 ```
 
