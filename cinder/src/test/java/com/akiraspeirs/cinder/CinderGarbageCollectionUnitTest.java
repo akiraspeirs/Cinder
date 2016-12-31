@@ -13,6 +13,7 @@ import static org.junit.Assert.assertEquals;
  * Created by akiraspeirs on 1/12/2016.
  */
 
+@SuppressWarnings("unused")
 public class CinderGarbageCollectionUnitTest {
 
     private class TestClass {
@@ -21,9 +22,9 @@ public class CinderGarbageCollectionUnitTest {
     }
 
     private class TestArrayClass{
-        ObservableArrayList<TestClass> test = new ObservableArrayList<>();
-        ObservableInt testSize = Cinder.computeInt(()->test.size(), Cinder.observable(test, TestClass.class, "number"));
-        ObservableArrayMap<String, String> test2 = Cinder.computeArrayMap((map)->{map.put("test", "test");}, Cinder.observable(test));
+        public ObservableArrayList<TestClass> test = new ObservableArrayList<>();
+        public ObservableInt testSize = Cinder.computeInt(()->test.size(), Cinder.observable(test, TestClass.class, "number"));
+        public ObservableArrayMap<String, String> test2 = Cinder.computeArrayMap((map)->{map.put("test", "test");}, Cinder.observable(test));
 
         public TestArrayClass(){
             for (int i =0; i < 100; ++i){
@@ -39,7 +40,6 @@ public class CinderGarbageCollectionUnitTest {
     }
 
     @Test
-    @SuppressWarnings("unused")
     public void callbacksGetCleanedUp() throws Exception {
         for (int i =0; i < 100; ++i){
             //Intentionally unused, just testing garbage collection

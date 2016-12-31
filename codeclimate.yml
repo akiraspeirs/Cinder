@@ -1,0 +1,15 @@
+---
+engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - Java
+  eslint:
+    enabled: true
+  fixme:
+    enabled: false
+ratings:
+  paths:
+  - "**.java"
+exclude_paths:
