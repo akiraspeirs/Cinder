@@ -10,6 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/cinder" />
+            <option value="$PROJECT_DIR$/cinder-rx" />
             <option value="$PROJECT_DIR$/cinderexample" />
           </set>
         </option>

@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/Cinder.iml" filepath="$PROJECT_DIR$/Cinder.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/cinder/cinder.iml" filepath="$PROJECT_DIR$/cinder/cinder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cinder-rx/cinder-rx.iml" filepath="$PROJECT_DIR$/cinder-rx/cinder-rx.iml" />
       <module fileurl="file://$PROJECT_DIR$/cinderexample/cinderexample.iml" filepath="$PROJECT_DIR$/cinderexample/cinderexample.iml" />
     </modules>
   </component>

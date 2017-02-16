@@ -39,6 +39,7 @@ Class ReceiptItem{
 	}
 }
 ```
+
 ## Other Examples:
 ```java
 //Observe properties of array elements
@@ -54,11 +55,15 @@ Class Receipt{
             return total;
         }, Cinder.observable(items, RecepitItem.class, "total"));
 }
+
+//You can also convert to and from RxJava Observables:
+    Observable<Long> rxLong = RxCinder.convert(observableLong);
+    ObservableLong observableLong = RxCinder.convertLong(rxLong);
 ```
 For more examples see the cinderexample app, the documentation below, or the test suite.
 ## Installing:
 
-You can install Cinder using JitPack.io:
+You can install Cinder and RxCinder using JitPack.io:
 
 ```groovy
     repositories {
@@ -70,7 +75,8 @@ You can install Cinder using JitPack.io:
 
 ```groovy
     dependencies {
-        compile 'com.github.akiraspeirs:Cinder:0.2.1'
+        compile 'com.github.akiraspeirs:cinder:0.3.0'
+        compile 'com.github.akiraspeirs:cinder-rx:0.1.0'
     }
 ```
 

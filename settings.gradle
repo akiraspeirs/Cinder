@@ -1,1 +1,1 @@
-include ':cinder', ':cinderexample'
+include ':cinder', ':cinderexample', ':cinder-rx'
