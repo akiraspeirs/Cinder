@@ -14,23 +14,23 @@ The library is in version zero so its interface and implementation might change 
 ```java
 //You can write this:
 Class ReceiptItem{
-	public final ObservableInt quantity = new ObservableInt();
-	public final ObservableInt price = new ObservableInt();
-	public final ObservableInt total = Cinder.computeInt(()-> quantity.get() * price.get(),
+    public final ObservableInt quantity = new ObservableInt();
+    public final ObservableInt price = new ObservableInt();
+    public final ObservableInt total = Cinder.computeInt(()-> quantity.get() * price.get(),
 	    quantity, price);
 }
 
 //Instead of something this:
 Class ReceiptItem{
-	public final ObservableInt quantity = new ObservableInt();
-	public final ObservableInt price = new ObservableInt();
-	public final ObservableInt total = new ObservableInt();
+    public final ObservableInt quantity = new ObservableInt();
+    public final ObservableInt price = new ObservableInt();
+    public final ObservableInt total = new ObservableInt();
 
     private OnPropertyChangedCallback totalObserver = new OnPropertyChangedCallback() {
-       @Override
-       public void onPropertyChanged(Observable sender, int propertyId) {
-           total.set(quantity.get() * price.get());
-       }
+        @Override
+        public void onPropertyChanged(Observable sender, int propertyId) {
+            total.set(quantity.get() * price.get());
+        }
     };
 
 	public ReceiptItem(){
@@ -44,16 +44,16 @@ Class ReceiptItem{
 ```java
 //Observe properties of array elements
 Class Receipt{
-	public final ObservableArrayList<RecepitItem> items = new ObservableArrayList<>();
+    public final ObservableArrayList<RecepitItem> items = new ObservableArrayList<>();
 
-	//Recalculates when items are added/removed or if their totals change.
-	public final ObservableInt total = Cinder.computeInt(()->{
-            int total = 0;
-            for (RecepitItem item: items){
-                total += item.total.get();
-            }
-            return total;
-        }, Cinder.observable(items, RecepitItem.class, "total"));
+    //Recalculates when items are added/removed or if their totals change.
+    public final ObservableInt total = Cinder.computeInt(()->{
+        int total = 0;
+        for (RecepitItem item: items){
+            total += item.total.get();
+        }
+        return total;
+    }, Cinder.observable(items, RecepitItem.class, "total"));
 }
 
 //You can also convert to and from RxJava Observables:
@@ -75,8 +75,7 @@ You can install Cinder and RxCinder using JitPack.io:
 
 ```groovy
     dependencies {
-        compile 'com.github.akiraspeirs:cinder:0.3.0'
-        compile 'com.github.akiraspeirs:cinder-rx:0.1.0'
+        compile 'com.github.akiraspeirs:cinder-rx:0.3.2'
     }
 ```
 
@@ -102,7 +101,7 @@ public static CinderInt computeInt(OnComputeIntCallback computeCallback,
 
 // Example:
 ObservableInt fruitCount = Cinder.computeInt(()->
-	appleCount.get() + bananaCount.get() + orangeCount.get(),
+    appleCount.get() + bananaCount.get() + orangeCount.get(),
     appleCount, bananaCount, orangeCount);
 ```
 
@@ -115,7 +114,7 @@ public static <T> CinderArrayList<T> computeArrayList(OnComputeArrayListCallback
 
 // Example:
 ObservableArrayList<String> fruits = Cinder.<String>computeArrayList((list)->
-		list.add(newFruitName.get()), addFruitEvent);
+    list.add(newFruitName.get()), addFruitEvent);
 ```
 
 #### Observable list and map conversion methods:
@@ -133,7 +132,7 @@ public static CinderComputable observable(ObservableList list, Class c, String..
 
 // Example:
 ObservableInt tastiness = Cinder.ComputeInt(()->
-	getAverageTastiness(list),
+    getAverageTastiness(list),
     Cinder.observable(list, Fruit.class, "tastiness"));
 ```
 
@@ -145,8 +144,8 @@ public static CinderObservable observe(OnChangeCallback onChangeCallback,
 
 // Example:
 Observable observable = Cinder.observe(()->{
-		fruitService.recordTotalFruitCount(appleCount.get() + bananaCount.get();
-	}, appleCount, bananaCount);
+        fruitService.recordTotalFruitCount(appleCount.get() + bananaCount.get();
+    }, appleCount, bananaCount);
 ```
 
 #### List and Map observe methods:
@@ -158,7 +157,7 @@ public static <T> CinderObservable observe(OnChangeCallback onChangeCallback,
 
 // Example:
 Observable fruitObserver = Cinder.observe(()->{
-		fruitService.uploadAllFruits(list);
+        fruitService.uploadAllFruits(list);
     }, list, Fruit.class, "name", "tastiness"));
 
 // Runs onChangeCallback whenever the collection is mutated.
