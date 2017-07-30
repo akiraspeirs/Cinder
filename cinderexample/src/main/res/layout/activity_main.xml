@@ -9,8 +9,7 @@
         android:layout_height="match_parent">
         <EditText android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{fruitStall.newFruit}"
-            android:onTextChange="@{}"/>
+            android:text="@={fruitStall.newFruit}"/> />
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
